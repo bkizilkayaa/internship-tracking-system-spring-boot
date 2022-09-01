@@ -33,6 +33,7 @@ public class StudentService {
             oldStudent.setName(newStudent.getName());
             oldStudent.setSurname(newStudent.getSurname());
             oldStudent.setCompanyId(newStudent.getCompanyId());
+            oldStudent.set_lecturer(newStudent.get_lecturer());
             return "student successfully updated!";
         }
         catch(Exception e){

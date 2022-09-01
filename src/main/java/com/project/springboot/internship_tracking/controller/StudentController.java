@@ -45,7 +45,7 @@ public class StudentController {
     public String addLecturerToStudent(@PathVariable int id, @PathVariable int lecturer_id){
         Student student = studentService.getStudentById(id);
         Lecturer lecturer=lecturerService.getLecturerById(lecturer_id);
-        student.setLecturer(lecturer);
+        studentService.updateStudent(id,student);
         return studentService.updateStudent(id,student);
     }
 
