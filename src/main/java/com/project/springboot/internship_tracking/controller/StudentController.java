@@ -21,7 +21,7 @@ public class StudentController {
     private final StudentService studentService;
     private final LecturerService lecturerService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<Student>> getStudents(){
         return new ResponseEntity<>(studentService.getStudents(), OK); //static-import for HTTP Status OK 200
     }
@@ -31,7 +31,7 @@ public class StudentController {
         return new ResponseEntity<>(studentService.getStudentById(id),OK);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Student> createStudent(@RequestBody Student newStudent){
         return new ResponseEntity<>(studentService.createStudent(newStudent),CREATED);
     }
@@ -41,7 +41,7 @@ public class StudentController {
         return studentService.updateStudent(id,newStudent);
     }
 
-    @PutMapping("/{id}/lecturers/{lecturer_id}")
+    @PutMapping("/{id}/lecturer/{lecturer_id}")
     public String addLecturerToStudent(@PathVariable int id, @PathVariable int lecturer_id){
         Student student = studentService.getStudentById(id);
         Lecturer lecturer=lecturerService.getLecturerById(lecturer_id);

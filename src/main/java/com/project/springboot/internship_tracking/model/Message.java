@@ -6,7 +6,9 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,11 +21,6 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="lecturer_id", nullable=false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Lecturer lecturer;
-
     @Column
     private String title;
 
@@ -32,5 +29,13 @@ public class Message {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
+
+    @ManyToOne
+    @JoinTable(
+            name = "lecturer_messages",
+            joinColumns = @JoinColumn(name = "message_id"),
+            inverseJoinColumns = @JoinColumn(name = "lecturer_id")
+    )
+    private Message _messages=new Message();
 
 }

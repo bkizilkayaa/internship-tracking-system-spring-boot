@@ -39,6 +39,6 @@ public class Student {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "lecturer_id")
     )
-    private Lecturer lecturer=new Lecturer();
+    private Lecturer _lecturer=new Lecturer();
 
 }

@@ -3,6 +3,7 @@ package com.project.springboot.internship_tracking.service;
 
 import com.project.springboot.internship_tracking.exception.LecturerNotFoundById;
 import com.project.springboot.internship_tracking.model.Lecturer;
+import com.project.springboot.internship_tracking.model.Student;
 import com.project.springboot.internship_tracking.repository.LecturerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,5 +21,19 @@ public class LecturerService {
     public Lecturer getLecturerById(int lecturer_id) {
         return lecturerRepository.findById(lecturer_id)
                 .orElseThrow(()-> new LecturerNotFoundById("Lecturer not found by id : "+lecturer_id));
+    }
+
+    public String updateLecturer(int id, Lecturer newLecturer) {
+        try{
+            Lecturer oldLecturer=getLecturerById(id);
+            oldLecturer.setName(newLecturer.getName());
+            oldLecturer.setMessageList(newLecturer.getMessageList());
+            oldLecturer.setEmail(newLecturer.getEmail());
+            oldLecturer.setStudentList(newLecturer.getStudentList());
+            return "lecturer successfully updated!";
+        }
+        catch(Exception e){
+            return e.getMessage();
+        }
     }
 }

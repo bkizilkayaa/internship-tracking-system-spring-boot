@@ -1,6 +1,7 @@
 package com.project.springboot.internship_tracking.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,9 +26,13 @@ public class Lecturer {
     @Column
     private String email;
 
-    @OneToMany(mappedBy = "lecturer")
+    @JsonIgnore
+    @OneToMany(mappedBy = "_lecturer")
     private List<Student> studentList= new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "_messages")
+    private List<Message> messageList= new ArrayList<>();
 
 
 
