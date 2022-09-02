@@ -2,13 +2,11 @@ package com.project.springboot.internship_tracking.model;
 
 
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+
 import java.util.Date;
-import java.util.List;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,12 +28,16 @@ public class Message {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
+
+
+
     @ManyToOne
     @JoinTable(
             name = "lecturer_messages",
             joinColumns = @JoinColumn(name = "message_id"),
             inverseJoinColumns = @JoinColumn(name = "lecturer_id")
     )
-    private Message _messages=new Message();
+    private Lecturer lecturerMessage=new Lecturer();
+
 
 }

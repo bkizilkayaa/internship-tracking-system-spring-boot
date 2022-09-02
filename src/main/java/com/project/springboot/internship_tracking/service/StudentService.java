@@ -2,18 +2,20 @@ package com.project.springboot.internship_tracking.service;
 
 
 import com.project.springboot.internship_tracking.exception.StudentNotFoundById;
+import com.project.springboot.internship_tracking.model.Lecturer;
 import com.project.springboot.internship_tracking.model.Student;
 import com.project.springboot.internship_tracking.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class StudentService {
     private final StudentRepository studentRepository;
+    private final LecturerService lecturerService;
+
     public List<Student> getStudents() {
         return studentRepository.findAll();
     }
@@ -43,5 +45,9 @@ public class StudentService {
 
     public void deleteStudent(int id) {
         studentRepository.delete(getStudentById(id));
+    }
+
+    public Lecturer getMyLecturer(Student student) {
+        return lecturerService.getLecturerById(student.get_lecturer().getId());
     }
 }

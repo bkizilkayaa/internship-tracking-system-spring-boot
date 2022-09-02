@@ -31,8 +31,8 @@ public class Lecturer {
     private List<Student> studentList= new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "_messages")
-    private List<Message> messageList= new ArrayList<>();
+    @OneToMany(mappedBy = "lecturerMessage")
+    public List<Message> messageList= new ArrayList<>();
 
 
 

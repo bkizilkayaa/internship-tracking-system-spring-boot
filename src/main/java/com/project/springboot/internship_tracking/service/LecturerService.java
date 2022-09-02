@@ -3,7 +3,8 @@ package com.project.springboot.internship_tracking.service;
 
 import com.project.springboot.internship_tracking.exception.LecturerNotFoundById;
 import com.project.springboot.internship_tracking.model.Lecturer;
-import com.project.springboot.internship_tracking.model.Student;
+import com.project.springboot.internship_tracking.model.Message;
+
 import com.project.springboot.internship_tracking.repository.LecturerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,22 @@ public class LecturerService {
         catch(Exception e){
             return e.getMessage();
         }
+    }
+
+    public String getMyMessage(Lecturer lecturer, Message message) {
+        if(lecturer.getId()==message.getLecturerMessage().getId()){
+            return message.getText();
+        }
+        else{
+            return "this person doesn't have that data you want.";
+        }
+    }
+
+    public Lecturer addLecturer(Lecturer newLecturer) {
+        return lecturerRepository.save(newLecturer);
+    }
+
+    public void deleteLecturer(int id) {
+        lecturerRepository.delete(getLecturerById(id));
     }
 }
