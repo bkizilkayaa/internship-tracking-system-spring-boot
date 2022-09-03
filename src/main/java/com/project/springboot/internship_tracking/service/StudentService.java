@@ -5,16 +5,19 @@ import com.project.springboot.internship_tracking.exception.StudentNotFoundById;
 import com.project.springboot.internship_tracking.model.Lecturer;
 import com.project.springboot.internship_tracking.model.Student;
 import com.project.springboot.internship_tracking.repository.StudentRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class StudentService {
-    private final StudentRepository studentRepository;
-    private final LecturerService lecturerService;
+    private final StudentRepository studentRepository; //constructor injection.
+    private final LecturerService lecturerService;  //constructor injection.
+
+    public StudentService(StudentRepository studentRepository, LecturerService lecturerService) {
+        this.studentRepository = studentRepository;
+        this.lecturerService = lecturerService;
+    }
 
     public List<Student> getStudents() {
         return studentRepository.findAll();

@@ -1,19 +1,20 @@
 package com.project.springboot.internship_tracking.service;
 
-import com.project.springboot.internship_tracking.exception.LecturerNotFoundById;
 import com.project.springboot.internship_tracking.exception.MessageNotFoundById;
 import com.project.springboot.internship_tracking.model.Message;
 import com.project.springboot.internship_tracking.repository.MessageRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class MessageService {
-    private final MessageRepository messageRepository;
+    private final MessageRepository messageRepository; //constructor injection.
+
+    public MessageService(MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
+    }
 
     public List<Message> getMessages() {
         return messageRepository.findAll();

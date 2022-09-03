@@ -3,15 +3,20 @@ package com.project.springboot.internship_tracking.service;
 import com.project.springboot.internship_tracking.exception.CompanyNotFoundById;
 import com.project.springboot.internship_tracking.model.Company;
 import com.project.springboot.internship_tracking.repository.CompanyRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+
 public class CompanyService {
-    private final CompanyRepository companyRepository;
+
+
+    private final CompanyRepository companyRepository; //uses constructor injection not field injection.
+                                                      //i mean not Autowired!
+    public CompanyService(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
+    }
 
     public List<Company> getAllCompanies() {
         return companyRepository.findAll();
