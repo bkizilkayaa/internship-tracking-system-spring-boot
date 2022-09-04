@@ -32,18 +32,20 @@ public class StudentService {
         return studentRepository.save(newStudent);
     }
 
-    public String updateStudent(int id, Student newStudent) {
-        try{
+    public Student updateStudent(int id, Student newStudent) {
             Student oldStudent=getStudentById(id);
             oldStudent.setName(newStudent.getName());
             oldStudent.setSurname(newStudent.getSurname());
             oldStudent.setCompanyId(newStudent.getCompanyId());
-            oldStudent.set_lecturer(newStudent.get_lecturer());
+            return studentRepository.save(oldStudent);
+    }
+    public String addLecturerToStudent(Student student, Lecturer lecturer) {
+            if(student.get_lecturer() == null){
+                student.set_lecturer(new Lecturer());
+            }
+            student.set_lecturer(lecturer);
+            studentRepository.save(student);
             return "student successfully updated!";
-        }
-        catch(Exception e){
-            return e.getMessage();
-        }
     }
 
     public void deleteStudent(int id) {

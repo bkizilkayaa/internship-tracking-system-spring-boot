@@ -14,12 +14,13 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/api/v1/students")
 @RequiredArgsConstructor
 
 public class StudentController {
     private final StudentService studentService;
     private final LecturerService lecturerService;
+
 
     @GetMapping
     public ResponseEntity<List<Student>> getStudents(){
@@ -37,17 +38,16 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public String updateStudent(@PathVariable int id, @RequestBody Student newStudent){
-        return studentService.updateStudent(id,newStudent);
+    public ResponseEntity<Void> updateStudent(@PathVariable int id, @RequestBody Student newStudent){
+        studentService.updateStudent(id,newStudent);
+        return new ResponseEntity<>(OK);
     }
 
-    @PutMapping("/{id}/lecturer/{lecturer_id}")
+    @PutMapping("/{id}/lecturers/{lecturer_id}")
     public String addLecturerToStudent(@PathVariable int id, @PathVariable int lecturer_id){
-        Student student = studentService.getStudentById(id);
+        Student student=studentService.getStudentById(id);
         Lecturer lecturer=lecturerService.getLecturerById(lecturer_id);
-        student.set_lecturer(lecturer);
-        studentService.updateStudent(id,student);
-        return studentService.updateStudent(id,student);
+        return studentService.addLecturerToStudent(student,lecturer);
     }
 
     @GetMapping("/{student_id}/lecturer")

@@ -4,8 +4,6 @@ package com.project.springboot.internship_tracking.controller;
 import com.project.springboot.internship_tracking.model.Message;
 import com.project.springboot.internship_tracking.service.MessageService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +12,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/messages")
+@RequestMapping("/api/v1/messages")
 @RequiredArgsConstructor
 
 public class MessageController {

@@ -28,16 +28,13 @@ public class Message {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
-
-
-
     @ManyToOne
     @JoinTable(
             name = "lecturer_messages",
             joinColumns = @JoinColumn(name = "message_id"),
             inverseJoinColumns = @JoinColumn(name = "lecturer_id")
     )
-    private Lecturer lecturerMessage=new Lecturer();
+    private Lecturer lecturerMessage;
 
 
 }

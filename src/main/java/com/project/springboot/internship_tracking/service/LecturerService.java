@@ -4,15 +4,16 @@ package com.project.springboot.internship_tracking.service;
 import com.project.springboot.internship_tracking.exception.LecturerNotFoundById;
 import com.project.springboot.internship_tracking.model.Lecturer;
 import com.project.springboot.internship_tracking.model.Message;
-
+import com.project.springboot.internship_tracking.model.Student;
 import com.project.springboot.internship_tracking.repository.LecturerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+
 public class LecturerService {
-    private final LecturerRepository lecturerRepository; //constructor injection.
+        private final LecturerRepository lecturerRepository; //constructor injection.
 
     public LecturerService(LecturerRepository lecturerRepository) {
         this.lecturerRepository = lecturerRepository;
@@ -27,22 +28,15 @@ public class LecturerService {
                 .orElseThrow(()-> new LecturerNotFoundById("Lecturer not found by id : "+lecturer_id));
     }
 
-    public String updateLecturer(int id, Lecturer newLecturer) {
-        try{
+    public Lecturer updateLecturer(int id, Lecturer newLecturer) {
             Lecturer oldLecturer=getLecturerById(id);
             oldLecturer.setName(newLecturer.getName());
-            oldLecturer.setMessageList(newLecturer.getMessageList());
             oldLecturer.setEmail(newLecturer.getEmail());
-            oldLecturer.setStudentList(newLecturer.getStudentList());
-            return "lecturer successfully updated!";
-        }
-        catch(Exception e){
-            return e.getMessage();
-        }
+            return lecturerRepository.save(oldLecturer);
     }
 
     public String getMyMessage(Lecturer lecturer, Message message) {
-        if(lecturer.getId()==message.getLecturerMessage().getId()){
+        if(lecturer.getId().equals(message.getLecturerMessage().getId())){
             return message.getText();
         }
         else{
@@ -57,4 +51,17 @@ public class LecturerService {
     public void deleteLecturer(int id) {
         lecturerRepository.delete(getLecturerById(id));
     }
+
+    public List<Student> getMyStudentList(int lecturer_id) {
+        return (lecturerRepository.findById(lecturer_id).get()).getStudentList();
+    }
+
+   /* public void addStudentToLecturer(Student student, int lecturer_id) {
+        Lecturer lecturer=lecturerRepository.findById(lecturer_id)
+                .orElseThrow(()->new LecturerNotFoundById("lecturer not found by id "+lecturer_id));
+
+        List<Student> studentList= lecturer.getStudentList();
+        studentList.add(student);
+        lecturer.setStudentList(studentList);
+    }*/
 }

@@ -1,11 +1,12 @@
 package com.project.springboot.internship_tracking.model;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -33,13 +34,13 @@ public class Student {
     @Column
     private String email;
 
-    @ManyToOne
+
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(
             name = "enrolled_students",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "lecturer_id")
     )
-    private Lecturer _lecturer=new Lecturer();
-
-
+    private Lecturer _lecturer;
 }

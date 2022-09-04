@@ -2,7 +2,10 @@ package com.project.springboot.internship_tracking.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,12 +30,20 @@ public class Lecturer {
     private String email;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "_lecturer")
-    private List<Student> studentList= new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "_lecturer",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL)
+    private List<Student> studentList=new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "lecturerMessage")
-    public List<Message> messageList= new ArrayList<>();
+
+    @JsonIgnore //json ignore olmayinca iteratif olarak sürekli aynı kayıtlar geliyor.
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "lecturerMessage",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL)
+    private List<Message> messageList=new ArrayList<>();
 
 
 
