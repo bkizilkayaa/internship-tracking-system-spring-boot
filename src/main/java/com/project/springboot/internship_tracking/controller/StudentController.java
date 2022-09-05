@@ -1,8 +1,8 @@
 package com.project.springboot.internship_tracking.controller;
 
+import com.project.springboot.internship_tracking.model.Company;
 import com.project.springboot.internship_tracking.model.Lecturer;
 import com.project.springboot.internship_tracking.model.Student;
-import com.project.springboot.internship_tracking.service.LecturerService;
 import com.project.springboot.internship_tracking.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 public class StudentController {
     private final StudentService studentService;
-    private final LecturerService lecturerService;
+
 
 
     @GetMapping
@@ -29,7 +29,7 @@ public class StudentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable Integer id){
-        return new ResponseEntity<>(studentService.getStudentById(id),OK);
+        return new ResponseEntity<>(findStudentById(id),OK);
     }
 
     @PostMapping
@@ -45,20 +45,35 @@ public class StudentController {
 
     @PutMapping("/{id}/lecturers/{lecturer_id}")
     public String addLecturerToStudent(@PathVariable int id, @PathVariable int lecturer_id){
-        Student student=studentService.getStudentById(id);
-        Lecturer lecturer=lecturerService.getLecturerById(lecturer_id);
-        return studentService.addLecturerToStudent(student,lecturer);
+        Student student=findStudentById(id); //it is local method to non-repeat myself
+        return studentService.addLecturerToStudent(student,lecturer_id);
+    }
+
+    @PutMapping("/{student_id}/company/{company_id}")
+    public String addCompanyToStudent(@PathVariable int student_id, @PathVariable int company_id){
+        Student student=findStudentById(student_id);
+        return studentService.addCompanyToStudent(student,company_id);
     }
 
     @GetMapping("/{student_id}/lecturer")
     public Lecturer getMyLecturer(@PathVariable int student_id){
-        Student student= studentService.getStudentById(student_id);
+        Student student= findStudentById(student_id); //it is local method to non-repeat myself
         return studentService.getMyLecturer(student);
+    }
+
+    @GetMapping("/{student_id}/company")
+    public Company getMyCompany(@PathVariable int student_id){
+        Student student= findStudentById(student_id); //it is local method to non-repeat myself
+        return studentService.getMyCompany(student);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable int id){
        studentService.deleteStudent(id);
        return new ResponseEntity<>(OK);
+    }
+
+    private Student findStudentById(int id){
+        return studentService.getStudentById(id);
     }
 }

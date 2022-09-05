@@ -38,6 +38,10 @@ public class MessageController {
         messageService.updateMessage(id,newMessage);
         return new ResponseEntity<>(OK);
     }
+    @PutMapping("/{message_id}/lecturers/{lecturer_id}")
+    public String addMessageToLecturer(@PathVariable int message_id, @PathVariable int lecturer_id){
+        return messageService.addMessageToLecturer(lecturer_id,message_id);
+    }
 
     @DeleteMapping("/{id}")
     public void deleteMessage(@PathVariable int id){

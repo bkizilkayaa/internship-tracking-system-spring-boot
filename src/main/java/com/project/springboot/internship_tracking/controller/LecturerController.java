@@ -4,7 +4,6 @@ import com.project.springboot.internship_tracking.model.Lecturer;
 import com.project.springboot.internship_tracking.model.Message;
 import com.project.springboot.internship_tracking.model.Student;
 import com.project.springboot.internship_tracking.service.LecturerService;
-import com.project.springboot.internship_tracking.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RequiredArgsConstructor
 public class LecturerController {
     private final LecturerService lecturerService;
-    private final MessageService messageService;
+//    private final MessageService messageService;
 
     @GetMapping
     public ResponseEntity<List<Lecturer>> getLecturers(){
@@ -42,15 +41,8 @@ public class LecturerController {
         lecturerService.updateLecturer(id,newLecturer);
         return new ResponseEntity<>(OK);
     }
-    @PutMapping("/{id}/messages/{message_id}")
-     public Lecturer addMessagesToLecturer(@PathVariable int id, @PathVariable int message_id){
-        Lecturer lecturer = lecturerService.getLecturerById(id);
-        Message message=messageService.getMessageById(message_id);
-        List<Message> messageList=lecturer.getMessageList();
-        messageList.add(message);
-        lecturer.setMessageList(messageList);
-        return lecturerService.updateLecturer(id,lecturer);
-    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable int id){
         lecturerService.deleteLecturer(id);
@@ -59,9 +51,14 @@ public class LecturerController {
 
     @GetMapping("/{lecturer_id}/messages/{message_id}")
     public String getLecturerMessageById(@PathVariable int lecturer_id,@PathVariable int message_id){
-        Lecturer lecturer=lecturerService.getLecturerById(lecturer_id);
-        Message message=messageService.getMessageById(message_id);
-        return lecturerService.getMyMessage(lecturer,message);
+        //Lecturer lecturer=lecturerService.getLecturerById(lecturer_id);
+        //Message message=messageService.getMessageById(message_id);
+        return lecturerService.getMyMessage(lecturer_id,message_id);
+    }
+
+    @GetMapping("/{lecturer_id}/messages")
+    public List<Message> getLecturerMessages(@PathVariable int lecturer_id){
+        return lecturerService.getMyMessageList(lecturer_id);
     }
 
 

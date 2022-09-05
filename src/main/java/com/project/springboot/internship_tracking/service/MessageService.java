@@ -1,6 +1,7 @@
 package com.project.springboot.internship_tracking.service;
 
 import com.project.springboot.internship_tracking.exception.MessageNotFoundById;
+import com.project.springboot.internship_tracking.model.Lecturer;
 import com.project.springboot.internship_tracking.model.Message;
 import com.project.springboot.internship_tracking.repository.MessageRepository;
 import org.springframework.stereotype.Service;
@@ -11,9 +12,11 @@ import java.util.List;
 @Service
 public class MessageService {
     private final MessageRepository messageRepository; //constructor injection.
+    private final LecturerService lecturerService;
 
-    public MessageService(MessageRepository messageRepository) {
+    public MessageService(MessageRepository messageRepository, LecturerService lecturerService) {
         this.messageRepository = messageRepository;
+        this.lecturerService = lecturerService;
     }
 
     public List<Message> getMessages() {
@@ -39,6 +42,21 @@ public class MessageService {
         catch (Exception e)
         {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public String addMessageToLecturer(int lecturer_id, int message_id) {
+        try {
+            Lecturer lecturer = lecturerService.getLecturerById(lecturer_id);
+            Message message = getMessageById(message_id);
+            if (message.getLecturerMessage() == null) {
+                message.setLecturerMessage(new Lecturer());
+            }
+            message.setLecturerMessage(lecturer);
+            messageRepository.save(message);
+            return "message successfully added to lecturer";
+        } catch (Exception e) {
+            return e.getMessage();
         }
     }
 

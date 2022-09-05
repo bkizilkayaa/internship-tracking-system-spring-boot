@@ -1,6 +1,7 @@
 package com.project.springboot.internship_tracking.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,7 +29,8 @@ public class Message {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(
             name = "lecturer_messages",
             joinColumns = @JoinColumn(name = "message_id"),

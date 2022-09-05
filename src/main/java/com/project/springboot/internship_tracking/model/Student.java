@@ -29,9 +29,6 @@ public class Student {
     private String surname;
 
     @Column
-    private Integer companyId;
-
-    @Column
     private String email;
 
 
@@ -43,4 +40,17 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "lecturer_id")
     )
     private Lecturer _lecturer;
+
+
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "students_companies",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "company_id")
+    )
+    private Company student_company_list;
+
+
+
 }

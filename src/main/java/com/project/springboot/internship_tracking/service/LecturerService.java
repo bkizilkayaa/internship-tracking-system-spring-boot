@@ -28,20 +28,26 @@ public class LecturerService {
                 .orElseThrow(()-> new LecturerNotFoundById("Lecturer not found by id : "+lecturer_id));
     }
 
-    public Lecturer updateLecturer(int id, Lecturer newLecturer) {
+    public void updateLecturer(int id, Lecturer newLecturer) {
             Lecturer oldLecturer=getLecturerById(id);
             oldLecturer.setName(newLecturer.getName());
             oldLecturer.setEmail(newLecturer.getEmail());
-            return lecturerRepository.save(oldLecturer);
+            lecturerRepository.save(oldLecturer);
     }
 
-    public String getMyMessage(Lecturer lecturer, Message message) {
-        if(lecturer.getId().equals(message.getLecturerMessage().getId())){
-            return message.getText();
+
+
+
+    public String getMyMessage(int lecturer_id,int message_id) { //?
+         Lecturer lecturer = lecturerRepository.findById(lecturer_id)
+                 .orElseThrow(()->new LecturerNotFoundById("lecturer not found by id : "+lecturer_id));
+
+        for (var a:lecturer.getMessageList()) {
+                if(a.getId()==message_id) {
+                    return a.getText();
+                }
         }
-        else{
-            return "this person doesn't have that data you want.";
-        }
+            return "lecturer doesn't have message like that.";
     }
 
     public Lecturer addLecturer(Lecturer newLecturer) {
@@ -56,12 +62,10 @@ public class LecturerService {
         return (lecturerRepository.findById(lecturer_id).get()).getStudentList();
     }
 
-   /* public void addStudentToLecturer(Student student, int lecturer_id) {
+    public List<Message> getMyMessageList(int lecturer_id) {
         Lecturer lecturer=lecturerRepository.findById(lecturer_id)
-                .orElseThrow(()->new LecturerNotFoundById("lecturer not found by id "+lecturer_id));
+                .orElseThrow(()->new LecturerNotFoundById("lecturer not found by id : "+lecturer_id));
+        return lecturer.getMessageList();
 
-        List<Student> studentList= lecturer.getStudentList();
-        studentList.add(student);
-        lecturer.setStudentList(studentList);
-    }*/
+    }
 }
